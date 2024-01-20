@@ -1,6 +1,7 @@
-MYSQL_PASSWORD=$1
-
 source common.sh
+
+component=backend
+MYSQL_PASSWORD=$1
 
 Head "Disable default version of Nodejs"
 dnf module disable nodejs -y &>> $log_file
@@ -22,23 +23,7 @@ Head "Adding application user"
 useradd expense &>> $log_file
 echo $?
 
-Head "Remove existing app folder"
-rm -rf /app &>> $log_file
-echo $?
-
-Head "Create application directory"
-mkdir /app &>> $log_file
-echo $?
-
-Head "Download application content"
-curl -o /tmp/backend.zip https://expense-artifacts.s3.amazonaws.com/backend.zip &>> $log_file
-# shellcheck disable=SC2164
-cd /app &>> $log_file
-echo $?
-
-Head "Extracting application content"
-unzip /tmp/backend.zip &>> $log_file
-echo $?
+InitPreScript "/app"
 
 Head "Downloading application dependencies"
 npm install &>> $log_file
