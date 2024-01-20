@@ -1,45 +1,49 @@
 log_file=/tmp/expense.log
 MYSQL_PASSWORD=$1
 
-echo -e "\e[35mDisable default version of Nodejs\e[0m"
+Head() {
+  echo -e "\e[35m$1\e[0m"
+}
+
+Head "Disable default version of Nodejs"
 dnf module disable nodejs -y &>> $log_file
 
-echo -e "\e[35mEnable Nodejs 18 version\e[0m"
+Head "Enable Nodejs 18 version"
 dnf module enable nodejs:18 -y &>> $log_file
 
-echo -e "\e[35mInstall Nodejs\e[0m"
+Head "Install Nodejs"
 dnf install nodejs -y &>> $log_file
 
-echo -e "\e[35mConfigure backend service\e[0m"
+Head "Configure backend service"
 cp backend.service /etc/systemd/system/backend.service &>> $log_file
 
-echo -e "\e[35mAdding application user\e[0m"
+Head "Adding application user"
 useradd expense &>> $log_file
 
-echo -e "\e[35mRemove existing app folder\e[0m"
+Head "Remove existing app folder"
 rm -rf /app &>> $log_file
 
-echo -e "\e[35mCreate application directory\e[0m"
+Head "Create application directory"
 mkdir /app &>> $log_file
 
-echo -e "\e[35mDownload application content\e[0m"
+Head "Download application content"
 curl -o /tmp/backend.zip https://expense-artifacts.s3.amazonaws.com/backend.zip &>> $log_file
 # shellcheck disable=SC2164
 cd /app &>> $log_file
 
-echo -e "\e[35mExtracting application content\e[0m"
+Head "Extracting application content"
 unzip /tmp/backend.zip &>> $log_file
 
-echo -e "\e[35mDownloading application dependencies\e[0m"
+Head "Downloading application dependencies"
 npm install &>> $log_file
 
-echo -e "\e[35mReloading SystemD and start backend service\e[0m"
+Head "Reloading SystemD and start backend service"
 systemctl daemon-reload &>> $log_file
 systemctl enable backend &>> $log_file
 systemctl start backend &>> $log_file
 
-echo -e "\e[35mInstalling mysql client\e[0m"
+Head "Installing mysql client"
 dnf install mysql -y &>> $log_file
 
-echo -e "\e[35mLoading mysql schema\e[0m"
+Head "Loading mysql schema"
 mysql -h mysql-dev.satishreddy.org -uroot -p${MYSQL_PASSWORD} < /app/schema/backend.sql &>> $log_file
