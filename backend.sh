@@ -9,6 +9,7 @@ if [ $? -eq 0 ]; then
   echo SUCCESS
 else
   echo FAILURE
+  exit 1
 fi
 
 Head "Enable Nodejs 18 version"
@@ -17,6 +18,7 @@ if [ $? -eq 0 ]; then
   echo SUCCESS
 else
   echo FAILURE
+  exit 1
 fi
 
 Head "Install Nodejs"
@@ -25,6 +27,7 @@ if [ $? -eq 0 ]; then
   echo SUCCESS
 else
   echo FAILURE
+  exit 1
 fi
 
 Head "Configure backend service"
@@ -33,6 +36,7 @@ if [ $? -eq 0 ]; then
   echo SUCCESS
 else
   echo FAILURE
+  exit 1
 fi
 
 Head "Adding application user"
@@ -41,6 +45,7 @@ if [ $? -eq 0 ]; then
   echo SUCCESS
 else
   echo FAILURE
+  exit 1
 fi
 
 InitPreScript "/app"
@@ -51,6 +56,7 @@ if [ $? -eq 0 ]; then
   echo SUCCESS
 else
   echo FAILURE
+  exit 1
 fi
 
 Head "Reloading SystemD and start backend service"
@@ -61,6 +67,7 @@ if [ $? -eq 0 ]; then
   echo SUCCESS
 else
   echo FAILURE
+  exit 1
 fi
 
 Head "Installing mysql client"
@@ -69,6 +76,7 @@ if [ $? -eq 0 ]; then
   echo SUCCESS
 else
   echo FAILURE
+  exit 1
 fi
 
 Head "Loading mysql schema"
@@ -77,4 +85,5 @@ if [ $? -eq 0 ]; then
   echo SUCCESS
 else
   echo FAILURE
+  exit 1
 fi
