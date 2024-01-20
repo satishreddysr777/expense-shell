@@ -1,6 +1,11 @@
 source common.sh
 MYSQL_PASSWORD=$1
 
+if [ -z "$MYSQL_PASSWORD" ]; then
+  echo -e "\e[31mInput MYSQL_PASSWORD is missing \e[0m"
+  exit 1
+fi
+
 Head "Disable default version of MySql"
 dnf module disable mysql -y &>> $log_file
 Status $?

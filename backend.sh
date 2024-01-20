@@ -3,6 +3,11 @@ source common.sh
 component=backend
 MYSQL_PASSWORD=$1
 
+if [ -z "$MYSQL_PASSWORD" ]; then
+  echo -e "\e[31mInput MYSQL_PASSWORD is missing \e[0m"
+  exit 1
+fi
+
 Head "Disable default version of Nodejs"
 dnf module disable nodejs -y &>> $log_file
 Status $?
