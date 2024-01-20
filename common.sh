@@ -9,23 +9,23 @@ InitPreScript() {
 
   Head "Remove existing app folder"
   rm -rf $1 &>> $log_file
-  Stat $?
+  Status $?
 
   Head "Create application directory"
   mkdir $1 &>> $log_file
-  Stat $?
+  Status $?
 
   Head "Download application content"
   curl -o /tmp/${component}.zip https://expense-artifacts.s3.amazonaws.com/${component}.zip &>> $log_file
   # shellcheck disable=SC2164
-  Stat $?
+  Status $?
 
   # shellcheck disable=SC2164
-  Stat $?
+  cd $1
 
   Head "Extracting application content"
   unzip /tmp/${component}.zip &>> $log_file
-  Stat $?
+  Status $?
 }
 
 Status() {
